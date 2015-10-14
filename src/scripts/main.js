@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+// Parent //
 const ListItem = React.createClass({
 
   handleClick: function() {
-    // TODO: Remove this
-    console.log(`You clicked ${this.props.name}!`);
+    this.props.onRemove(this.props.index);
   },
 
   render: function() {
@@ -16,6 +16,7 @@ const ListItem = React.createClass({
   }
 });
 
+// Child //
 const ListForm = React.createClass({
 
   saveComment: function (event) {
@@ -46,9 +47,17 @@ const ListMaker = React.createClass({
     });
   },
 
+  removeName: function (index) {
+    let names = this.state.names.slice();
+    names.splice(index, 1);
+    this.setState({
+      names: names
+    });
+  },
+
   render: function() {
     let listItems = this.state.names.map((item, i) => {
-      return <ListItem key={i} name={item} />
+      return <ListItem key={i} name={item} index={i} onRemove={this.removeName}/>
     });
     return (<div>
       <h1>List Maker</h1>
@@ -62,7 +71,7 @@ const ListMaker = React.createClass({
 
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
-    <ListMaker names={["Jason", "Jason", "Sandra", "Mark"]} /> ,
+    <ListMaker names={['']} /> ,
     document.querySelector('.app')
   );
 });
