@@ -1,26 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-// Parent //
 const ListItem = React.createClass({
-
   handleClick: function() {
     this.props.onRemove(this.props.index);
   },
 
   render: function() {
-
     return (
       <li onClick={this.handleClick}>{this.props.name}</li>
     );
   }
 });
 
-// Child //
 const ListForm = React.createClass({
-
   saveComment: function (event) {
     event.preventDefault();
+    // This is a reference to Listmaker's addName function passed
     this.props.onSaveComment(this.refs.name.value);
   },
 
@@ -40,11 +36,9 @@ const ListMaker = React.createClass({
   },
 
   addName: function (newName) {
-    let names = this.state.names;
-    names.push(newName);
-    this.setState({
-      names: names
-    });
+    let names = this.state.names.slice();
+    this.state.names.push(newName);
+    this.setState(this.state.names);
   },
 
   removeName: function (index) {
